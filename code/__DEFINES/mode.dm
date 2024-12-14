@@ -252,6 +252,8 @@ DEFINE_BITFIELD(whitelist_status, list(
 #define OBJECTIVE_ABSOLUTE_VALUE 1.4
 #define OBJECTIVE_POWER_VALUE 5
 
+#define OBJECTIVE_PRISONER_VALUE 1
+
 // Objective states
 #define OBJECTIVE_INACTIVE (1<<0)
 #define OBJECTIVE_ACTIVE (1<<1)

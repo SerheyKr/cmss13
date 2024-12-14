@@ -1065,6 +1065,10 @@
 		to_chat(src, "The game appears to have misplaced your mind datum.")
 		return
 
+	if (skillcheck(usr, SKILL_INTEL, SKILL_INTEL_TRAINED) && faction == FACTION_UPP)
+		mind.view_objective_memories(src, TREE_UPP)
+		return
+
 	if(!skillcheck(usr, SKILL_INTEL, SKILL_INTEL_TRAINED) || faction != FACTION_MARINE && !(faction in FACTION_LIST_WY))
 		to_chat(usr, SPAN_WARNING("You have no access to the [MAIN_SHIP_NAME] intel network."))
 		return
@@ -1767,7 +1771,7 @@
 
 /// generates realistic-ish pulse output based on preset levels.
 /// method == GETPULSE_HAND is for hands, GETPULSE_TOOL is for machines, more accurate
-/mob/living/carbon/human/proc/get_pulse(method) 
+/mob/living/carbon/human/proc/get_pulse(method)
 	var/temp = 0 //see setup.dm:694
 
 	if(species && species.flags & NO_BLOOD)

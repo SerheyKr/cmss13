@@ -144,13 +144,13 @@
 	if(objective_memory)
 		objective_memory.store_objective(O)
 
-/datum/mind/proc/view_objective_memories(mob/recipient)
+/datum/mind/proc/view_objective_memories(mob/recipient, tree_to_display = TREE_MARINE)
 	if(!objective_memory)
 		return
 
 	objective_memory.synchronize_objectives()
 
-	objective_interface.holder = GET_TREE(TREE_MARINE)
+	objective_interface.holder = GET_TREE(tree_to_display)
 	objective_interface.tgui_interact(current)
 
 /datum/mind/proc/view_research_objective_memories(mob/recipient)

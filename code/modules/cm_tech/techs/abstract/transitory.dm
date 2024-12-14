@@ -51,7 +51,7 @@
 	name = "Unlock Tier 1"
 	tier = /datum/tier/free
 
-	flags = TREE_FLAG_MARINE|TREE_FLAG_XENO
+	flags = TREE_FLAG_MARINE|TREE_FLAG_XENO|TREE_FLAG_UPP|TREE_FLAG_MARINE_HVH
 
 	next = /datum/tier/one
 

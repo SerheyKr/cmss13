@@ -4,11 +4,14 @@
 // Tree Flags
 #define TREE_FLAG_MARINE (1<<0)
 #define TREE_FLAG_XENO  (1<<1)
+#define TREE_FLAG_UPP  (1<<2)
+#define TREE_FLAG_MARINE_HVH  (1<<3)
 
 // Trees
 #define TREE_NONE "Undefined"
 #define TREE_MARINE "Marine Tech Tree"
 #define TREE_XENO "Xenomorph Tech Tree"
+#define TREE_UPP "UPP Tech Tree"
 
 #define INITIAL_STARTING_POINTS 0
 

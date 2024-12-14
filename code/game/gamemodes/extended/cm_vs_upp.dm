@@ -1,6 +1,6 @@
 /datum/game_mode/extended/faction_clash/cm_vs_upp
-	name = "Faction Clash UPP CM"
-	config_tag = "Faction Clash UPP CM"
+	name = GAMEMODE_CM_VS_UPP
+	config_tag = GAMEMODE_CM_VS_UPP
 	flags_round_type = MODE_THUNDERSTORM|MODE_FACTION_CLASH
 	toggleable_flags = MODE_NO_SNIPER_SENTRY|MODE_NO_ATTACK_DEAD|MODE_NO_STRIPDRAG_ENEMY|MODE_STRONG_DEFIBS|MODE_BLOOD_OPTIMIZATION|MODE_NO_COMBAT_CAS|MODE_INDESTRUCTIBLE_SPLINTS|MODE_NO_INTERNAL_BLEEDING|MODE_MORTAR_LASER_WARNING
 	taskbar_icon = 'icons/taskbar/gml_hvh.png'
@@ -28,6 +28,7 @@
 	// Now notify the staff of the load - this goes in addition to the generic template load game log
 	message_admins("Successfully loaded template as new Z-Level, template name: [template.name]", center_x, center_y, loaded.z_value)
 	makepowernets()
+
 	. = ..()
 
 

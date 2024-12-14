@@ -10,8 +10,11 @@
 	var/objective_flags = NO_FLAGS // functionality related flags.
 	var/number_of_clues_to_generate = 1 // miminum number of clues we generate for the objective(aka how many things will point to this objective).
 	var/controller = TREE_NONE // Controlling tree - this is the tree-faction we consider in control of the objective for purpose of awarding points.
+	var/blocked_for_hvh = TRUE
 
 /datum/cm_objective/New()
+	if (blocked_for_hvh == TRUE && GLOB.master_mode == GAMEMODE_CM_VS_UPP)
+		state = OBJECTIVE_INACTIVE
 	SSobjectives.add_objective(src)
 
 /datum/cm_objective/Destroy()

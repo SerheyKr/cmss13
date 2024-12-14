@@ -23,6 +23,8 @@
 
 	var/announce_name = "ALMAYER SPECIAL ASSETS AUTHORIZED"
 	var/announce_message
+	var/announce_faction = FACTION_MARINE
+	var/log_to_ares = TRUE
 
 	var/is_tier_changer = FALSE
 
@@ -77,12 +79,13 @@
 		if(!log_details)
 			log_details = name
 		var/current_points = holder.points
-		log_ares_tech(user.real_name, is_tier_changer, announce_name, log_details, required_points, current_points)
+		if (log_to_ares == TRUE)
+			log_ares_tech(user.real_name, is_tier_changer, announce_name, log_details, required_points, current_points)
 	holder.spend_points(required_points)
 	update_icon(node)
 
 	if(!(tech_flags & TECH_FLAG_NO_ANNOUNCE) && announce_message && announce_name)
-		marine_announcement(announce_message, announce_name, 'sound/misc/notice2.ogg', logging = ARES_LOG_NONE)
+		marine_announcement(announce_message, announce_name, 'sound/misc/notice2.ogg', logging = ARES_LOG_NONE, faction_to_display = announce_faction)
 
 	return TRUE
 

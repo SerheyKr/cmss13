@@ -18,6 +18,10 @@ GLOBAL_LIST_EMPTY(marine_leaders)
 
 /datum/techtree/marine/New()
 	. = ..()
+
+	if(GLOB.master_mode == GAMEMODE_CM_VS_UPP)
+		flags = TREE_FLAG_MARINE_HVH
+
 	RegisterSignal(SSdcs, COMSIG_GLOB_POST_SETUP, PROC_REF(setup_leader))
 
 /datum/techtree/marine/proc/setup_leader(datum/source)
@@ -137,11 +141,15 @@ GLOBAL_LIST_EMPTY(tech_controls_marine)
 /obj/structure/machinery/computer/tech_control/attack_hand(mob/M)
 	. = ..()
 
-	if(!skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED) && SSmapping.configs[GROUND_MAP].map_name != MAP_WHISKEY_OUTPOST)
-		to_chat(M, SPAN_WARNING("You don't have the training to use \the [src]."))
-		return
 
 	if(!attached_tree)
+		return
+
+	if (attached_tree.flags == TREE_UPP)
+		return
+
+	if(!skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED) && SSmapping.configs[GROUND_MAP].map_name != MAP_WHISKEY_OUTPOST)
+		to_chat(M, SPAN_WARNING("You don't have the training to use \the [src]."))
 		return
 
 	var/datum/techtree/tree = GET_TREE(TREE_MARINE)

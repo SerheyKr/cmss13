@@ -299,8 +299,14 @@
 	chat_color = "#828cff"
 	background_icon = "background_upp_delta"
 
-/datum/squad/upp/kdo
+/datum/squad/upp/five
 	name = SQUAD_UPP_5
+	equivalent_name = SQUAD_MARINE_5
+	equipment_color = "#67d692"
+	chat_color = "#67d692"
+
+/datum/squad/upp/kdo
+	name = SQUAD_UPP_KDO
 	equipment_color = "#c47a50"
 	chat_color = "#c47a50"
 	squad_type = "Team"

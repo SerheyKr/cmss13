@@ -292,7 +292,8 @@ GLOBAL_LIST_INIT(job_command_roles, JOB_COMMAND_ROLES_LIST)
 #define SQUAD_UPP_2 "Bizon"
 #define SQUAD_UPP_3 "Chayka"
 #define SQUAD_UPP_4 "Delfin"
-#define SQUAD_UPP_5 "UPPKdo"
+#define SQUAD_UPP_5 "Fikus"
+#define SQUAD_UPP_KDO "UPPKdo"
 
 #define JOB_UPP_COMBAT_SYNTH "UPP Combat Synthetic"
 #define JOB_UPP_SUPPORT_SYNTH "UPP Support Synthetic"
