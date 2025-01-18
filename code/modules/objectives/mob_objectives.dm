@@ -128,6 +128,8 @@
 	return value
 
 /datum/cm_objective/recover_corpses/process()
+	if(state == OBJECTIVE_INACTIVE)
+		return
 
 	for(var/mob/target as anything in corpses)
 		if(QDELETED(target))
@@ -141,8 +143,9 @@
 		var/turf/T = get_turf(target)
 		var/area/A = get_area(T)
 		if(istype(A, /area/almayer/medical/morgue) || istype(A, /area/almayer/medical/containment))
-			SSobjectives.statistics["corpses_recovered"]++
-			SSobjectives.statistics["corpses_total_points_earned"] += corpse_val
+			var/datum/techtree/tree = GET_TREE(controller)
+			tree.statistics["corpses_recovered"]++
+			tree.statistics["corpses_total_points_earned"] += corpse_val
 			award_points(corpse_val)
 
 			corpses -= target
@@ -220,14 +223,17 @@
 
 /datum/cm_objective/move_mob/check_completion()
 	. = ..()
+	if(state == OBJECTIVE_INACTIVE)
+		return FALSE
 	if(istype(get_area(target),destination))
 		if(target.stat != DEAD || mob_can_die & MOB_CAN_COMPLETE_AFTER_DEATH)
 			complete()
 			return TRUE
 
 /datum/cm_objective/move_mob/complete()
-	SSobjectives.statistics["survivors_rescued"]++
-	SSobjectives.statistics["survivors_rescued_total_points_earned"] += value
+	var/datum/techtree/tree = GET_TREE(controller)
+	tree.statistics["survivors_rescued"]++
+	tree.statistics["survivors_rescued_total_points_earned"] += value
 	award_points()
 	deactivate()
 

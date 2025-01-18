@@ -23,7 +23,7 @@
 
 /datum/timelock/human/can_play(client/C)
 	return C.get_total_human_playtime() >= time_required
-	
+
 /datum/timelock/human/get_role_requirement(client/C)
 	return time_required - C.get_total_human_playtime()
 
@@ -33,4 +33,10 @@
 /datum/timelock/dropship/New(name, time_required, list/roles)
 	. = ..()
 	src.roles = JOB_DROPSHIP_ROLES_LIST
-	
+
+/datum/job/command/spawn_in_player(mob/new_player/NP)
+	. = ..()
+	if (MODE_HAS_FLAG(MODE_FACTION_CLASH))
+		var/mob/living/carbon/human/huma = .
+		if (!huma.attached_objective)
+			huma.attached_objective = new /datum/cm_objective/capture_prisoners/upp(huma)

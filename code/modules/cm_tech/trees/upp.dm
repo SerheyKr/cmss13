@@ -69,13 +69,12 @@ GLOBAL_LIST_EMPTY(tech_controls_upp)
 	var/job_cannot_be_overridden = list(
 		JOB_UPP_KOL_OFFICER,
 		JOB_UPP_KPT_OFFICER,
-		JOB_UPP_KOL_OFFICER,
 		JOB_UPP_MAY_GENERAL,
 		JOB_UPP_LT_GENERAL,
 		JOB_UPP_GENERAL
 	)
 
-	var/faction = FACTION_UPP
+	tree_faction = FACTION_UPP
 
 /datum/techtree/upp/New()
 	. = ..()
@@ -92,14 +91,14 @@ GLOBAL_LIST_EMPTY(tech_controls_upp)
 
 /datum/techtree/upp/generate_tree()
 	. = ..()
-	for(var/i in GLOB.tech_controls_upp)
-		var/obj/structure/machinery/computer/tech_control/TC = i
+	for(var/tech_control in GLOB.tech_controls_marine)
+		var/obj/structure/machinery/computer/tech_control/TC = tech_control
 		TC.attached_tree = src
 
 /datum/techtree/upp/has_access(mob/M, access_required)
 	switch(access_required)
 		if(TREE_ACCESS_VIEW)
-			if(M.faction == faction)
+			if(M.faction == tree_faction)
 				return TRUE
 		if(TREE_ACCESS_MODIFY)
 			if(skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED))
@@ -142,7 +141,7 @@ GLOBAL_LIST_EMPTY(tech_controls_upp)
 	. = ..()
 
 	if(!skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED) && SSmapping.configs[GROUND_MAP].map_name != MAP_WHISKEY_OUTPOST)
-		to_chat(M, SPAN_WARNING("You don't have the training to use \the [src]."))
+		to_chat(M, SPAN_WARNING("You don't have the training to use the [src]."))
 		return
 
 	if(!attached_tree)
@@ -156,7 +155,7 @@ GLOBAL_LIST_EMPTY(tech_controls_upp)
 		return //No need to announce tier updates for tier 1
 	var/name = "ROSTOCK DEFCON LEVEL INCREASED"
 	var/input = "THREAT ASSESSMENT LEVEL INCREASED TO LEVEL [tier.tier].\n\nLEVEL [tier.tier] assets have been authorised to handle the situation."
-	marine_announcement(input, name, 'sound/AI/commandreport.ogg', logging = ARES_LOG_NONE, faction_to_display = FACTION_UPP)
+	marine_announcement(message = input, title = name, sound_to_play = 'sound/AI/commandreport.ogg', logging = ARES_LOG_NONE, faction_to_display = tree_faction)
 
 /datum/techtree/upp/can_attack(mob/living/carbon/H)
 	return !ishuman(H)

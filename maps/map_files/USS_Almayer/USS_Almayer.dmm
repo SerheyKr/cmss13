@@ -1625,6 +1625,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/machinery/medical_pod/capturescanner,
 /turf/open/floor/almayer/red,
 /area/almayer/shipboard/brig/starboard_hallway)
 "alw" = (
@@ -53959,6 +53960,7 @@
 /turf/open/floor/almayer/cargo,
 /area/almayer/engineering/lower/engine_core)
 "slF" = (
+/obj/structure/machinery/medical_pod/capturescanner,
 /turf/open/floor/almayer/red/northwest,
 /area/almayer/shipboard/brig/processing)
 "smi" = (

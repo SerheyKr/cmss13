@@ -9,5 +9,7 @@
 
 /datum/cm_objective/communications/complete()
 	ai_silent_announcement("SYSTEMS REPORT: Colony communications link online.", ":v")
+	if(state == OBJECTIVE_INACTIVE)
+		return
 	state = OBJECTIVE_COMPLETE
 	award_points()

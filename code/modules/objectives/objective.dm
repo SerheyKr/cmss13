@@ -10,10 +10,12 @@
 	var/objective_flags = NO_FLAGS // functionality related flags.
 	var/number_of_clues_to_generate = 1 // miminum number of clues we generate for the objective(aka how many things will point to this objective).
 	var/controller = TREE_NONE // Controlling tree - this is the tree-faction we consider in control of the objective for purpose of awarding points.
-	var/blocked_for_hvh = TRUE
+
+	var/blocked_for_hvh = TRUE //Objective will be disabled for HvH gamemode
+
 
 /datum/cm_objective/New()
-	if (blocked_for_hvh == TRUE && GLOB.master_mode == GAMEMODE_CM_VS_UPP)
+	if (blocked_for_hvh == TRUE && MODE_HAS_FLAG(MODE_FACTION_CLASH))
 		state = OBJECTIVE_INACTIVE
 	SSobjectives.add_objective(src)
 
@@ -43,7 +45,7 @@
 /// Add points to the techtree of whoever owns the objective.
 /datum/cm_objective/proc/award_points(override_points = -1)
 	var/datum/techtree/controlling_tree = GET_TREE(controller)
-	if (!controlling_tree)
+	if (!controlling_tree || state == OBJECTIVE_INACTIVE)
 		return
 
 	if (override_points != -1)

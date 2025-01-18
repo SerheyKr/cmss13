@@ -10,7 +10,9 @@
 
 /datum/cm_objective/retrieve_item/device/complete()
 	..()
-	SSobjectives.statistics["item_retrieval_completed"]++
+	var/datum/techtree/tree = GET_TREE(controller)
+
+	tree.statistics["item_retrieval_completed"]++
 
 /datum/cm_objective/retrieve_item/device
 	objective_flags = OBJECTIVE_DEAD_END | OBJECTIVE_START_PROCESSING_ON_DISCOVERY

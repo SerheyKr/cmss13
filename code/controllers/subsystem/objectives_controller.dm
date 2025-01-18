@@ -114,9 +114,6 @@ SUBSYSTEM_DEF(objectives)
 		//The map doesn't have the correct landmarks, so we generate nothing, hoping the map has normal objectives
 		return
 
-	if(GLOB.master_mode == GAMEMODE_CM_VS_UPP)
-		return
-
 	var/paper_scraps = 40
 	var/progress_reports = 15
 	var/folders = 30

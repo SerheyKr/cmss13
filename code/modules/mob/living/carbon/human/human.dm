@@ -1065,11 +1065,14 @@
 		to_chat(src, "The game appears to have misplaced your mind datum.")
 		return
 
-	if (skillcheck(usr, SKILL_INTEL, SKILL_INTEL_TRAINED) && faction == FACTION_UPP)
+	if(!skillcheck(usr, SKILL_INTEL, SKILL_INTEL_TRAINED))
+		return
+
+	if(faction == FACTION_UPP)
 		mind.view_objective_memories(src, TREE_UPP)
 		return
 
-	if(!skillcheck(usr, SKILL_INTEL, SKILL_INTEL_TRAINED) || faction != FACTION_MARINE && !(faction in FACTION_LIST_WY))
+	if(faction != FACTION_MARINE && !(faction in FACTION_LIST_WY))
 		to_chat(usr, SPAN_WARNING("You have no access to the [MAIN_SHIP_NAME] intel network."))
 		return
 

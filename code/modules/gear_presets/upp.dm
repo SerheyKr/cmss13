@@ -20,6 +20,12 @@
 
 	gear_preset = /datum/equipment_preset/upp/soldier
 
+/datum/job/antag/upp/spawn_in_player(mob/new_player/NP)
+	. = ..()
+	if (MODE_HAS_FLAG(MODE_FACTION_CLASH))
+		var/mob/living/carbon/human/huma = .
+		huma.attached_objective = new /datum/cm_objective/capture_prisoners(huma)
+
 /datum/equipment_preset/upp
 	name = FACTION_UPP
 	languages = list(LANGUAGE_RUSSIAN, LANGUAGE_ENGLISH, LANGUAGE_CHINESE)

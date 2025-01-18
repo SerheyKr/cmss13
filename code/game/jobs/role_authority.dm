@@ -512,6 +512,12 @@ I hope it's easier to tell what the heck this proc is even doing, unlike previou
 	new_human.sec_hud_set_ID()
 	new_human.hud_set_squad()
 
+	if (MODE_HAS_FLAG(MODE_FACTION_CLASH) && !new_human.attached_objective)
+		if(new_human.faction == FACTION_MARINE)
+			new_human.attached_objective = new /datum/cm_objective/capture_prisoners/upp(new_human)
+		else if(new_human.faction == FACTION_UPP)
+			new_human.attached_objective = new /datum/cm_objective/capture_prisoners(new_human)
+
 	SEND_SIGNAL(new_human, COMSIG_POST_SPAWN_UPDATE)
 	SSround_recording.recorder.track_player(new_human)
 

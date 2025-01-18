@@ -78,6 +78,7 @@ GLOBAL_VAR_INIT(cas_tracking_id_increment, 0) //this var used to assign unique t
 		spawn_static_comms()
 	if(corpses_to_spawn)
 		generate_corpses()
+	initialize_gamemode_machinery()
 	initialize_gamemode_modifiers()
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MODE_PRESETUP)
 	return 1
@@ -96,6 +97,11 @@ GLOBAL_VAR_INIT(cas_tracking_id_increment, 0) //this var used to assign unique t
 /datum/game_mode/proc/setup_structures()
 	for(var/obj/effect/landmark/structure_spawner/setup/SS in GLOB.structure_spawners)
 		SS.apply()
+
+/datum/game_mode/proc/initialize_gamemode_machinery()
+	//Removing HvH stuff from spawning in normal rounds
+	for (var /v in GLOB.capture_scanners)
+		qdel(v)
 
 ///post_setup()
 ///Everyone should now be on the station and have their normal gear.  This is the place to give the special roles extra things

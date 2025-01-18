@@ -29,8 +29,9 @@
 
 /datum/cm_objective/document/complete(mob/living/carbon/human/user)
 	. = ..()
+	var/datum/techtree/tree = GET_TREE(controller)
 
-	SSobjectives.statistics["documents_total_points_earned"] += value
+	tree.statistics["documents_total_points_earned"] += value
 	award_points()
 
 	if (user && user.mind)
@@ -182,7 +183,8 @@
 	// Our first time reading this successfully.
 	if(!(objective.state & OBJECTIVE_COMPLETE))
 		objective.complete(user)
-		SSobjectives.statistics["documents_completed"]++
+		var/datum/techtree/tree = GET_TREE(objective.controller)
+		tree.statistics["documents_completed"]++
 		objective.state = OBJECTIVE_COMPLETE
 
 /obj/item/document_objective/paper

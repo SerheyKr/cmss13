@@ -45,7 +45,8 @@
 /datum/cm_objective/retrieve_item/complete()
 	state = OBJECTIVE_COMPLETE
 	award_points()
-	SSobjectives.statistics["item_retrieval_total_points_earned"] += value
+	var/datum/techtree/tree = GET_TREE(controller)
+	tree.statistics["item_retrieval_total_points_earned"] += value
 
 /datum/cm_objective/retrieve_item/get_tgui_data()
 	var/list/clue = list()
@@ -107,7 +108,8 @@
 
 /datum/cm_objective/retrieve_item/document/complete()
 	..()
-	SSobjectives.statistics["item_retrieval_completed"]++
+	var/datum/techtree/tree = GET_TREE(controller)
+	tree.statistics["item_retrieval_completed"]++
 
 /datum/cm_objective/retrieve_item/document/get_clue()
 	return

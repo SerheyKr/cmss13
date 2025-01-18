@@ -136,10 +136,11 @@ GLOBAL_DATUM_INIT(chemical_data, /datum/chemical_data, new)
 	chemical_identified_list[chem.id] = chem.objective_value
 	chemical_not_completed_objective_list -= chem.id
 
-	SSobjectives.statistics["chemicals_completed"]++
-	SSobjectives.statistics["chemicals_total_points_earned"] += chem.objective_value
-
 	var/datum/techtree/tree = GET_TREE(TREE_MARINE)
+
+	tree.statistics["chemicals_completed"]++
+	tree.statistics["chemicals_total_points_earned"] += chem.objective_value
+
 	tree.add_points(chem.objective_value)
 
 

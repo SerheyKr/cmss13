@@ -44,8 +44,9 @@
 
 /datum/cm_objective/crack_safe/complete()
 	state = OBJECTIVE_COMPLETE
-	SSobjectives.statistics["miscellaneous_completed"]++
-	SSobjectives.statistics["miscellaneous_total_points_earned"] += value
+	var/datum/techtree/tree = GET_TREE(controller)
+	tree.statistics["miscellaneous_completed"]++
+	tree.statistics["miscellaneous_total_points_earned"] += value
 	award_points()
 
 /datum/cm_objective/crack_safe/proc/on_safe_open(obj/structure/safe)

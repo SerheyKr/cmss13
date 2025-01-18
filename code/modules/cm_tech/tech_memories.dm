@@ -116,62 +116,72 @@
 /datum/objective_memory_interface/proc/get_objectives()
 	var/list/objectives = list()
 
+	if(MODE_HAS_FLAG(MODE_FACTION_CLASH))
+		objectives += list(get_objective(
+			"Captured",
+			holder.statistics["captured"],
+			FALSE,
+			holder.statistics["captured_total_points_earned"],
+			"white"
+		))
+		return objectives
+
 	// Documents (papers + reports + folders + manuals)
 	objectives += list(get_objective(
 		"Documents",
-		SSobjectives.statistics["documents_completed"],
+		holder.statistics["documents_completed"],
 		SSobjectives.statistics["documents_total_instances"],
-		SSobjectives.statistics["documents_total_points_earned"]
+		holder.statistics["documents_total_points_earned"]
 	))
 
 	// Data (disks + terminals)
 	objectives += list(get_objective(
 		"Upload data",
-		SSobjectives.statistics["data_retrieval_completed"],
+		holder.statistics["data_retrieval_completed"],
 		SSobjectives.statistics["data_retrieval_total_instances"],
-		SSobjectives.statistics["data_retrieval_total_points_earned"]
+		holder.statistics["data_retrieval_total_points_earned"]
 	))
 
 	// Retrieve items (devices + documents + fultons)
 	objectives += list(get_objective(
 		"Retrieve items",
-		SSobjectives.statistics["item_retrieval_completed"],
+		holder.statistics["item_retrieval_completed"],
 		SSobjectives.statistics["item_retrieval_total_instances"],
-		SSobjectives.statistics["item_retrieval_total_points_earned"]
+		holder.statistics["item_retrieval_total_points_earned"]
 	))
 
 	// Miscellaneous (safes)
 	objectives += list(get_objective(
 		"Miscellaneous",
-		SSobjectives.statistics["miscellaneous_completed"],
+		holder.statistics["miscellaneous_completed"],
 		SSobjectives.statistics["miscellaneous_total_instances"],
-		SSobjectives.statistics["miscellaneous_total_points_earned"]
+		holder.statistics["miscellaneous_total_points_earned"]
 	))
 
 	// Chemicals
 	objectives += list(get_objective(
 		"Analyze chemicals",
-		SSobjectives.statistics["chemicals_completed"],
+		holder.statistics["chemicals_completed"],
 		FALSE,
-		SSobjectives.statistics["chemicals_total_points_earned"],
+		holder.statistics["chemicals_total_points_earned"],
 		"white"
 	))
 
 	// Rescue survivors
 	objectives += list(get_objective(
 		"Rescue survivors",
-		SSobjectives.statistics["survivors_rescued"],
+		holder.statistics["survivors_rescued"],
 		FALSE,
-		SSobjectives.statistics["survivors_rescued_total_points_earned"],
+		holder.statistics["survivors_rescued_total_points_earned"],
 		"white"
 	))
 
 	// Corpses (human + xeno)
 	objectives += list(get_objective(
 		"Recover corpses",
-		SSobjectives.statistics["corpses_recovered"],
+		holder.statistics["corpses_recovered"],
 		FALSE,
-		SSobjectives.statistics["corpses_total_points_earned"],
+		holder.statistics["corpses_total_points_earned"],
 		"white"
 	))
 
@@ -215,10 +225,8 @@
 /datum/objective_memory_interface/ui_data(mob/user)
 	. = list()
 
-	var/datum/techtree/tree = GET_TREE(TREE_MARINE)
-
 	.["tech_points"] = holder.points
-	.["total_tech_points"] = tree.total_points
+	.["total_tech_points"] = holder.total_points
 	.["objectives"] = get_objectives(user)
 	.["clue_categories"] = get_clues(user)
 
@@ -227,8 +235,8 @@
 
 	switch(action)
 		if("enter_techtree")
-			var/datum/techtree/tree = GET_TREE(TREE_MARINE)
-			tree.enter_mob(usr, FALSE)
+			holder.enter_mob(usr, FALSE)
+
 
 /datum/objective_memory_interface/ui_status(mob/user, datum/ui_state/state)
 	return UI_INTERACTIVE

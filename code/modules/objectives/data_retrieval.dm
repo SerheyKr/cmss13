@@ -31,8 +31,10 @@
 		complete()
 
 /datum/cm_objective/retrieve_data/complete()
-	SSobjectives.statistics["data_retrieval_total_points_earned"] += value
-	SSobjectives.statistics["data_retrieval_completed"]++
+	var/datum/techtree/tree = GET_TREE(controller)
+
+	tree.statistics["data_retrieval_total_points_earned"] += value
+	tree.statistics["data_retrieval_completed"]++
 
 // --------------------------------------------
 // *** Upload data from a terminal ***

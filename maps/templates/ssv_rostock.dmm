@@ -1085,6 +1085,7 @@
 /area/rostock/railgun/starboard)
 "aNY" = (
 /obj/structure/machinery/power/apc/power/west,
+/obj/structure/machinery/medical_pod/capturescanner/upp,
 /turf/open/floor/strata,
 /area/rostock/security/brig_office)
 "aOB" = (
@@ -4630,6 +4631,7 @@
 /turf/open/floor/plating,
 /area/rostock/lower_deck/m_hallway)
 "dEP" = (
+/obj/structure/machinery/computer/tech_control_upp,
 /turf/open/floor/strata/multi_tiles,
 /area/rostock/command/cic)
 "dER" = (
@@ -13569,6 +13571,7 @@
 /area/rostock/command/so)
 "khq" = (
 /obj/structure/machinery/power/apc/power/west,
+/obj/structure/machinery/medical_pod/capturescanner/upp,
 /turf/open/floor/strata/red3/west,
 /area/rostock/security/headquarters_lobby)
 "khK" = (
@@ -22441,6 +22444,18 @@
 	},
 /turf/open/floor/plating/plating_catwalk/prison,
 /area/rostock/engineering/main_area)
+"rfv" = (
+/obj/structure/stairs{
+	dir = 1
+	},
+/obj/effect/step_trigger/teleporter_vector{
+	name = "upp_down1";
+	vector_x = -1;
+	vector_y = -91
+	},
+/obj/structure/machinery/medical_pod/capturescanner,
+/turf/open/floor/corsat/plate,
+/area/rostock/stair_clone)
 "rfU" = (
 /obj/effect/decal/warning_stripes{
 	icon_state = "S";
@@ -42582,7 +42597,7 @@ ttq
 oEs
 rkR
 lZT
-lZT
+rfv
 lZT
 lZT
 lZT

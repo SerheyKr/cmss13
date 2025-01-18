@@ -25,11 +25,53 @@
 	var/center_x = floor(loaded.bounds[MAP_MAXX] / 2) // Technically off by 0.5 due to above +1. Whatever
 	var/center_y = floor(loaded.bounds[MAP_MAXY] / 2)
 
+	change_techtree()
+
 	// Now notify the staff of the load - this goes in addition to the generic template load game log
 	message_admins("Successfully loaded template as new Z-Level, template name: [template.name]", center_x, center_y, loaded.z_value)
 	makepowernets()
 
 	. = ..()
+
+/datum/game_mode/proc/initialize_gamemode_machinery()
+
+/datum/game_mode/extended/faction_clash/cm_vs_upp/proc/change_techtree()
+	var/list/tech_nodes = subtypesof(/datum/tech)
+	var/datum/techtree/marineTree = GET_TREE(TREE_MARINE)
+	marineTree.flags = TREE_FLAG_MARINE_HVH
+
+	// point of no return
+	for(var/tier in marineTree.all_techs)
+		for(var/node in marineTree.all_techs[tier])
+			SStechtree.techs.Remove(node)
+		marineTree.unlocked_techs[tier] = list()
+		marineTree.all_techs[tier] = list()
+
+	for(var/BaseNode in tech_nodes)
+		var/datum/tech/node = BaseNode
+		if(initial(node.flags) == NO_FLAGS || !(initial(node.tier) in marineTree.all_techs))
+			continue
+
+		node = new BaseNode()
+		var/tier = node.tier
+
+		if(marineTree.flags & node.flags)
+			marineTree.all_techs[tier] += list(node.type = node)
+			marineTree.techs_by_type[node.type] = node
+			SStechtree.techs += node
+
+			node.tier = marineTree.tree_tiers[node.tier]
+			node.on_tree_insertion(marineTree)
+
+	marineTree.generate_tree()
+
+	for (var/datum/cm_objective/objective in SSobjectives.objectives)
+		if (objective.blocked_for_hvh == TRUE)
+			objective.state = OBJECTIVE_INACTIVE
+			objective.deactivate()
+			objective.value = 0
+		else if (objective.blocked_for_hvh == FALSE && objective.state == OBJECTIVE_INACTIVE)
+			objective.state = OBJECTIVE_ACTIVE
 
 
 /datum/game_mode/extended/faction_clash/cm_vs_upp/get_roles_list()

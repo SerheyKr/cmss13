@@ -3,6 +3,7 @@
 	var/name = TREE_NONE
 	var/datum/space_level/zlevel = 0
 	var/flags = NO_FLAGS
+	var/tree_faction = FACTION_NEUTRAL // Faction this tree belongs to
 
 	var/list/cached_unlocked_techs = list()
 	var/list/techs_by_type = list()
@@ -37,6 +38,7 @@
 
 	// UI Variables
 	var/ui_theme
+	var/statistics = list()
 
 /datum/techtree/New()
 	. = ..()
@@ -47,6 +49,33 @@
 
 
 	tier = tree_tiers[tier]
+
+	generate_statistics()
+
+/datum/techtree/proc/generate_statistics()
+	statistics["documents_completed"] = 0
+	statistics["documents_total_points_earned"] = 0
+
+	statistics["chemicals_completed"] = 0
+	statistics["chemicals_total_points_earned"] = 0
+
+	statistics["data_retrieval_completed"] = 0
+	statistics["data_retrieval_total_points_earned"] = 0
+
+	statistics["item_retrieval_completed"] = 0
+	statistics["item_retrieval_total_points_earned"] = 0
+
+	statistics["miscellaneous_completed"] = 0
+	statistics["miscellaneous_total_points_earned"] = 0
+
+	statistics["survivors_rescued"] = 0
+	statistics["survivors_rescued_total_points_earned"] = 0
+
+	statistics["corpses_recovered"] = 0
+	statistics["corpses_total_points_earned"] = 0
+
+	statistics["captured"] = 0
+	statistics["captured_total_points_earned"] = 0
 
 /datum/techtree/proc/generate_tree()
 	if(!zlevel)

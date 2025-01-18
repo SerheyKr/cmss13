@@ -175,6 +175,9 @@
 	// Are we currently using inherent zoom vision?
 	var/is_zoomed = FALSE
 
+	//For HvH prisoner objective
+	var/datum/cm_objective/attached_objective
+
 /client/var/cached_human_playtime
 
 /client/proc/get_total_human_playtime(skip_cache = FALSE)

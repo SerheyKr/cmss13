@@ -4,6 +4,7 @@ GLOBAL_LIST_EMPTY(marine_leaders)
 /datum/techtree/marine
 	name = TREE_MARINE
 	flags = TREE_FLAG_MARINE
+	tree_faction = FACTION_MARINE
 
 	background_icon_locked = "marine"
 
@@ -14,13 +15,8 @@ GLOBAL_LIST_EMPTY(marine_leaders)
 		JOB_CO
 	)
 
-	var/faction = FACTION_MARINE
-
 /datum/techtree/marine/New()
 	. = ..()
-
-	if(GLOB.master_mode == GAMEMODE_CM_VS_UPP)
-		flags = TREE_FLAG_MARINE_HVH
 
 	RegisterSignal(SSdcs, COMSIG_GLOB_POST_SETUP, PROC_REF(setup_leader))
 
@@ -35,14 +31,14 @@ GLOBAL_LIST_EMPTY(marine_leaders)
 
 /datum/techtree/marine/generate_tree()
 	. = ..()
-	for(var/i in GLOB.tech_controls_marine)
-		var/obj/structure/machinery/computer/tech_control/TC = i
+	for(var/tech_control in GLOB.tech_controls_marine)
+		var/obj/structure/machinery/computer/tech_control/TC = tech_control
 		TC.attached_tree = src
 
 /datum/techtree/marine/has_access(mob/M, access_required)
 	switch(access_required)
 		if(TREE_ACCESS_VIEW)
-			if(M.faction == faction)
+			if(M.faction == tree_faction)
 				return TRUE
 		if(TREE_ACCESS_MODIFY)
 			if(skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED))
@@ -143,9 +139,6 @@ GLOBAL_LIST_EMPTY(tech_controls_marine)
 
 
 	if(!attached_tree)
-		return
-
-	if (attached_tree.flags == TREE_UPP)
 		return
 
 	if(!skillcheck(M, SKILL_INTEL, SKILL_INTEL_TRAINED) && SSmapping.configs[GROUND_MAP].map_name != MAP_WHISKEY_OUTPOST)
