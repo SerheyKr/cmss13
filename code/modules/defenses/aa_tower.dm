@@ -39,10 +39,16 @@
 		return
 
 	playsound(loc, 'sound/machines/twobeep.ogg', 50, 1)
-	sleep(3)
+
+
+	addtimer(CALLBACK(src, PROC_REF(fire_second_step)), 3)
+	addtimer(CALLBACK(src, PROC_REF(stafire_third_steprt_weather_event)), 0.5)
+
+/obj/structure/machinery/defenses/planetary_anti_air/proc/fire_second_step()
 	visible_message("[icon2html(src, viewers(src))] [SPAN_WARNING("The [name] fires projectiles into air!")]")
 	playsound(loc, 'sound/weapons/vehicles/autocannon_fire.ogg', 50, 1)
-	sleep(0.5)
+
+/obj/structure/machinery/defenses/planetary_anti_air/proc/fire_third_step()
 	playsound(loc, 'sound/weapons/vehicles/autocannon_fire.ogg', 50, 1)
 	last_fired = world.time
 
@@ -61,7 +67,7 @@
 		message += SPAN_INFO("It has [SPAN_HELPFUL("[health]/[health_max]")] health.")
 	return list(message)
 
-/obj/structure/machinery/defenses/planetary_anti_air/attackby(obj/item/object as obj, mob/user as mob)
+/obj/structure/machinery/defenses/planetary_anti_air/attackby(obj/item/object, mob/user)
 	if(QDELETED(object))
 		return
 
@@ -81,9 +87,8 @@
 					power_off()
 					power_on()
 					return
-				else
-					user_human.electrocute_act(20, src)//god bless him for stupid move
-					return
+				user_human.electrocute_act(20, src)//god bless him for stupid move
+				return
 			if(additional_shock >= 2)
 				return
 			LAZYCLEARLIST(faction_group)
@@ -138,27 +143,24 @@
 			anchored = FALSE
 			playsound(loc, 'sound/items/Ratchet.ogg', 25, 1)
 			return
-		else
-			var/turf/turf_under_aa = get_turf(src)
-			var/area/area = get_area(turf_under_aa)
-			if(CEILING_IS_PROTECTED(area.ceiling, CEILING_PROTECTION_TIER_1) || !is_ground_level(turf_under_aa.z))
-				to_chat(user, SPAN_RED("You realize how bad of an idea this is and quickly stop."))
-				return
-
-			var/turf/open/floor = get_turf(src)
-			if(!floor.allow_construction)
-				to_chat(user, SPAN_WARNING("You cannot secure \the [src] here, find a more secure surface!"))
-				return FALSE
-			user.visible_message(SPAN_NOTICE("[user] begins securing [src] to the ground."),
-			SPAN_NOTICE("You begin securing [src] to the ground."))
-
-			if(!do_after(user, anchor_time * user.get_skill_duration_multiplier(SKILL_CONSTRUCTION), INTERRUPT_ALL|BEHAVIOR_IMMOBILE, BUSY_ICON_BUILD, src))
-				return
-			user.visible_message(SPAN_NOTICE("[user] secures [src] to the ground."),
-			SPAN_NOTICE("You secure [src] to the ground."))
-			anchored = TRUE
-			playsound(loc, 'sound/items/Ratchet.ogg', 25, 1)
+		var/turf/turf_under_aa = get_turf(src)
+		var/area/area = get_area(turf_under_aa)
+		if(CEILING_IS_PROTECTED(area.ceiling, CEILING_PROTECTION_TIER_1) || !is_ground_level(turf_under_aa.z))
+			to_chat(user, SPAN_RED("You realize how bad of an idea this is and quickly stop."))
 			return
+		var/turf/open/floor = get_turf(src)
+		if(!floor.allow_construction)
+			to_chat(user, SPAN_WARNING("You cannot secure \the [src] here, find a more secure surface!"))
+			return FALSE
+		user.visible_message(SPAN_NOTICE("[user] begins securing [src] to the ground."),
+		SPAN_NOTICE("You begin securing [src] to the ground."))
+		if(!do_after(user, anchor_time * user.get_skill_duration_multiplier(SKILL_CONSTRUCTION), INTERRUPT_ALL|BEHAVIOR_IMMOBILE, BUSY_ICON_BUILD, src))
+			return
+		user.visible_message(SPAN_NOTICE("[user] secures [src] to the ground."),
+		SPAN_NOTICE("You secure [src] to the ground."))
+		anchored = TRUE
+		playsound(loc, 'sound/items/Ratchet.ogg', 25, 1)
+		return
 
 	if(iswelder(object))
 		if(!HAS_TRAIT(object, TRAIT_TOOL_BLOWTORCH))
@@ -257,10 +259,11 @@
 	update_icon()
 
 /obj/structure/machinery/defenses/planetary_anti_air/damaged_action(damage)
-	if(health < health_max * 0.15)
-		visible_message(SPAN_DANGER("[icon2html(src, viewers(src))] The [name] cracks and breaks apart!"))
-		stat |= DEFENSE_DAMAGED
-		turned_on = FALSE
-		remove_protected_area()
-		set_light(0)
-		update_icon()
+	if(health >= health_max * 0.15)
+		return
+	visible_message(SPAN_DANGER("[icon2html(src, viewers(src))] [src] cracks and breaks apart!"))
+	stat |= DEFENSE_DAMAGED
+	turned_on = FALSE
+	remove_protected_area()
+	set_light(0)
+	update_icon()
